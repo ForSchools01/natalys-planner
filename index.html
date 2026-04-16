@@ -1045,7 +1045,7 @@ function init(){
 
 function loadData(){
   try {
-    const s = localStorage.getItem('natalyPlanner_v4');
+    const s = localStorage.getItem('natalyPlanner_v3');
     if(s){ const p=JSON.parse(s); events=p.events||[]; colorMap=p.colorMap||{}; return; }
   } catch(e){}
   colorMap = {...DEFAULT_COLOR_MAP};
@@ -1059,7 +1059,7 @@ function loadData(){
 }
 
 function saveData(){
-  localStorage.setItem('natalyPlanner_v4', JSON.stringify({events,colorMap}));
+  localStorage.setItem('natalyPlanner_v3', JSON.stringify({events,colorMap}));
   document.getElementById('statusDot').style.background='#8aab9a';
   document.getElementById('statusText').textContent='Saved · '+new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
 }
