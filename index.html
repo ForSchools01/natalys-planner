@@ -2,15 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nataly's Planner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0/default.min.css">
-<script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0/index.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0/scroll-behaviour.min.js"></script>
-
 <style>
 /* ── TOKENS ─────────────────────────────────────────────────────────── */
 :root {
@@ -64,6 +59,7 @@ header {
   z-index: 100;
 }
 
+/* Subtle floral texture on header */
 header::before {
   content: '';
   position: absolute;
@@ -118,6 +114,7 @@ header::before {
   position: relative;
 }
 
+/* Week navigation */
 .week-nav {
   display: flex;
   align-items: center;
@@ -202,7 +199,10 @@ header::before {
   font-weight: 600;
 }
 
-.day-filter { display: flex; gap: 4px; flex-wrap: wrap; }
+.day-filter {
+  display: flex;
+  gap: 4px;
+}
 
 .day-pill {
   padding: 4px 12px;
@@ -217,7 +217,11 @@ header::before {
   transition: all 0.15s;
   letter-spacing: 0.3px;
 }
-.day-pill.active { background: var(--text); color: white; border-color: var(--text); }
+.day-pill.active {
+  background: var(--text);
+  color: white;
+  border-color: var(--text);
+}
 .day-pill:hover:not(.active) { border-color: var(--amber); color: var(--amber-d); }
 
 .toolbar-sep { width: 1px; height: 22px; background: var(--border); }
@@ -240,7 +244,7 @@ header::before {
 
 .toolbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
 .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--sage); flex-shrink: 0; }
-.status-text { font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
+.status-text { font-size: 0.72rem; color: var(--muted); }
 
 /* ── MAIN CALENDAR ───────────────────────────────────────────────────── */
 .main {
@@ -258,6 +262,7 @@ header::before {
   background: var(--surface);
 }
 
+/* Time gutter */
 .time-gutter {
   width: 72px;
   flex-shrink: 0;
@@ -290,7 +295,9 @@ header::before {
 }
 .time-scroll::-webkit-scrollbar { display: none; }
 
-.time-axis { position: relative; }
+.time-axis {
+  position: relative;
+}
 
 .time-tick {
   height: calc(var(--px-min) * 60 * 1px);
@@ -309,14 +316,12 @@ header::before {
   white-space: nowrap;
 }
 
-/* Scroll area handling alignment for mobile */
+/* Days scroll area */
 .days-scroll-wrapper {
   flex: 1;
-  overflow-x: auto; /* Enable horizontal scrolling on mobile */
-  overflow-y: hidden;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  -webkit-overflow-scrolling: touch;
 }
 
 .days-header-row {
@@ -325,12 +330,10 @@ header::before {
   border-bottom: 2px solid var(--border);
   background: var(--warm0);
   height: var(--hh);
-  min-width: 100%;
-  width: max-content;
 }
 
 .day-head {
-  flex: 1 0 120px; /* Minimum width constraint */
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -376,27 +379,22 @@ header::before {
   flex: 1;
   display: flex;
   overflow-y: auto;
-  overflow-x: hidden; /* X handled by parent */
+  overflow-x: hidden;
   scroll-behavior: smooth;
-  min-width: 100%;
-  width: max-content;
 }
-
-.grid-body::-webkit-scrollbar { width: 6px; height: 6px; }
+.grid-body::-webkit-scrollbar { width: 6px; }
 .grid-body::-webkit-scrollbar-track { background: var(--warm0); }
 .grid-body::-webkit-scrollbar-thumb { background: var(--warm2); border-radius: 3px; }
-.days-scroll-wrapper::-webkit-scrollbar { height: 6px; }
-.days-scroll-wrapper::-webkit-scrollbar-track { background: var(--warm0); }
-.days-scroll-wrapper::-webkit-scrollbar-thumb { background: var(--warm2); border-radius: 3px; }
 
 /* Sync scrolling */
 .grid-body, .time-scroll { scroll-behavior: smooth; }
 
 /* Day column */
 .day-col {
-  flex: 1 0 120px; /* Minimum width constraint */
+  flex: 1;
   border-right: 1px solid var(--border);
   position: relative;
+  min-width: 100px;
   cursor: pointer;
 }
 .day-col:last-child { border-right: none; }
@@ -420,6 +418,7 @@ header::before {
   border-top: 1px dashed rgba(200,170,140,0.2);
 }
 
+/* now line */
 .now-line {
   position: absolute;
   left: 0; right: 0;
@@ -470,7 +469,6 @@ header::before {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  touch-action: none; /* Required for polyfill dragging */
 }
 
 .event-card:hover {
@@ -509,14 +507,13 @@ header::before {
   position: absolute;
   bottom: 0;
   left: 0; right: 0;
-  height: 14px; /* Slightly larger for mobile tap */
+  height: 7px;
   cursor: ns-resize;
   background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.08));
   border-radius: 0 0 9px 9px;
   display: flex;
   align-items: center;
   justify-content: center;
-  touch-action: none; /* Crucial for touch resizing */
 }
 .resize-handle::after {
   content: '⋯';
@@ -619,6 +616,7 @@ header::before {
 .time-row { display: flex; gap: 12px; }
 .time-row > div { flex: 1; }
 
+/* Repeat selector */
 .repeat-options { display: flex; gap: 8px; flex-wrap: wrap; }
 .repeat-pill {
   padding: 5px 13px;
@@ -634,6 +632,7 @@ header::before {
 }
 .repeat-pill.active { background: var(--text); color: white; border-color: var(--text); }
 
+/* Day selector in modal */
 .day-checkboxes { display: flex; gap: 6px; flex-wrap: wrap; }
 .day-cb-label {
   display: flex;
@@ -652,6 +651,7 @@ header::before {
 .day-cb-label input { display: none; }
 .day-cb-label.checked { background: var(--amber); color: white; border-color: var(--amber); }
 
+/* Color swatches */
 .swatch-grid {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
@@ -667,7 +667,10 @@ header::before {
   position: relative;
 }
 .swatch:hover { transform: scale(1.15); }
-.swatch.selected { border-color: var(--text); transform: scale(1.1); }
+.swatch.selected {
+  border-color: var(--text);
+  transform: scale(1.1);
+}
 .swatch.selected::after {
   content: '✓';
   position: absolute;
@@ -689,7 +692,11 @@ header::before {
   border-top: 1px solid var(--warm1);
 }
 
-.btn-modal-ghost { background: var(--warm1); color: var(--text2); border: none; }
+.btn-modal-ghost {
+  background: var(--warm1);
+  color: var(--text2);
+  border: none;
+}
 .btn-modal-ghost:hover { background: var(--warm2); }
 
 .btn-modal-primary {
@@ -703,6 +710,7 @@ header::before {
 .btn-modal-danger { background: #fff0f0; color: #c44040; border: none; margin-right: auto; }
 .btn-modal-danger:hover { background: #ffe0e0; }
 
+/* ── TOAST ───────────────────────────────────────────────────────────── */
 .toast {
   position: fixed;
   bottom: 28px;
@@ -725,6 +733,7 @@ header::before {
 }
 .toast.show { opacity: 1; transform: translateY(0); }
 
+/* ── EMPTY STATE ─────────────────────────────────────────────────────── */
 .empty-hint {
   position: absolute;
   inset: 0;
@@ -746,34 +755,6 @@ header::before {
   border: 1px dashed rgba(232,168,95,0.4);
 }
 
-/* ── RESPONSIVE MOBILE ───────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    height: auto;
-    padding: 16px;
-    gap: 16px;
-  }
-  .header-brand { justify-content: center; width: 100%; }
-  .header-actions { flex-wrap: wrap; justify-content: center; width: 100%; }
-  .week-nav { margin-right: 0; width: 100%; justify-content: space-between; }
-  
-  .toolbar {
-    flex-wrap: wrap;
-    padding: 10px 16px;
-    justify-content: center;
-    gap: 10px;
-  }
-  .toolbar-right { margin-left: 0; width: 100%; justify-content: center; }
-  
-  .time-gutter { width: 56px; }
-  .modal { padding: 20px; }
-  .day-head, .day-col { flex: 1 0 135px; /* Larger tap targets on phone */ }
-  .swatch-grid { grid-template-columns: repeat(5, 1fr); }
-  .toast { left: 50%; transform: translate(-50%, 12px); right: auto; text-align: center; white-space: nowrap; }
-  .toast.show { transform: translate(-50%, 0); }
-}
-
 /* ── PRINT ───────────────────────────────────────────────────────────── */
 @media print {
   header, .toolbar { display: none !important; }
@@ -786,6 +767,7 @@ header::before {
 </head>
 <body>
 
+<!-- ── HEADER ────────────────────────────────────────────────────────── -->
 <header>
   <div class="header-brand">
     <div class="brand-icon">🌸</div>
@@ -807,6 +789,7 @@ header::before {
   </div>
 </header>
 
+<!-- ── TOOLBAR ───────────────────────────────────────────────────────── -->
 <div class="toolbar">
   <span class="toolbar-label">Days</span>
   <div class="day-filter" id="dayFilter"></div>
@@ -825,8 +808,10 @@ header::before {
   </div>
 </div>
 
+<!-- ── CALENDAR ──────────────────────────────────────────────────────── -->
 <div class="main">
   <div class="calendar-wrapper">
+    <!-- Time gutter -->
     <div class="time-gutter">
       <div class="gutter-corner">Time</div>
       <div class="time-scroll" id="timeScroll">
@@ -834,14 +819,17 @@ header::before {
       </div>
     </div>
 
-    <div class="days-scroll-wrapper" id="daysScrollWrapper">
+    <!-- Days -->
+    <div class="days-scroll-wrapper">
       <div class="days-header-row" id="daysHeaderRow"></div>
       <div class="grid-body" id="gridBody">
-        </div>
+        <!-- day columns injected here -->
+      </div>
     </div>
   </div>
 </div>
 
+<!-- ── EVENT MODAL ───────────────────────────────────────────────────── -->
 <div class="modal-overlay" id="eventModal">
   <div class="modal">
     <div class="modal-header">
@@ -898,14 +886,6 @@ header::before {
 
 <script>
 'use strict';
-
-/* ── INJECT MOBILE DRAG & DROP POLYFILL ───────────────────────────── */
-MobileDragDrop.polyfill({
-    dragImageTranslateOverride: MobileDragDrop.scrollBehaviourDragImageTranslateOverride
-});
-// Required to prevent iOS scrolling issues when dragging
-window.addEventListener('touchmove', function() {}, {passive: false});
-
 /* ── CONSTANTS ─────────────────────────────────────────────────────── */
 const ALL_DAYS  = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 const START_H   = 6;   // 6 AM
@@ -938,15 +918,16 @@ const PALETTE = {
 };
 
 /* ── STATE ─────────────────────────────────────────────────────────── */
-let events      = [];   
-let colorMap    = {};   
+let events      = [];   // { id, title, day, startMin, endMin, colorKey }
+let colorMap    = {};   // title.lower → colorKey
 let viewDays    = 7;
-let weekOffset  = 0;    
+let weekOffset  = 0;    // weeks from current
 let editingId   = null;
 let repeatMode  = 'none';
-let dragData    = null; 
-let resizeData  = null; 
+let dragData    = null; // { id, offsetMin, origEl }
+let resizeData  = null; // { id, origEndMin }
 
+/* ── DEFAULT DATA ──────────────────────────────────────────────────── */
 const DEFAULT_COLOR_MAP = {
   "wake up & get ready":                                 "blush",
   "training (yoga/pilates/gym)":                         "mint",
@@ -1007,8 +988,10 @@ function formatWeekLabel(){
   return `${fmt(dates[0])} – ${fmt(dates[6])}`;
 }
 
+/* ── VISIBLE DAYS ──────────────────────────────────────────────────── */
 function visibleDays(){
   if(viewDays===1){
+    // show today's day name, or monday if weekend
     const d=new Date(); const dow=d.getDay();
     const name = ALL_DAYS[dow===0?6:dow-1];
     return [name];
@@ -1031,10 +1014,12 @@ function init(){
   document.getElementById('nextWeek').onclick = ()=>{ weekOffset++; renderCalendar(); updateWeekNav(); };
   document.getElementById('headerAddBtn').onclick = ()=> openEventModal(null, ALL_DAYS[0], snap(t2m('09:00')), snap(t2m('10:00')));
 
+  // Sync scroll between time gutter and grid
   const grid = document.getElementById('gridBody');
   const ts   = document.getElementById('timeScroll');
   grid.addEventListener('scroll', ()=>{ ts.scrollTop = grid.scrollTop; });
 
+  // Scroll to 6am on load
   setTimeout(()=>{ grid.scrollTop = 0; }, 100);
 
   document.addEventListener('keydown', e=>{
@@ -1048,6 +1033,7 @@ function loadData(){
     const s = localStorage.getItem('natalyPlanner_v3');
     if(s){ const p=JSON.parse(s); events=p.events||[]; colorMap=p.colorMap||{}; return; }
   } catch(e){}
+  // defaults
   colorMap = {...DEFAULT_COLOR_MAP};
   let id=1;
   for(let i=0;i<5;i++){
@@ -1078,8 +1064,12 @@ function buildTimeAxis(){
   }
 }
 
-function updateWeekNav(){ document.getElementById('weekLabel').textContent = weekOffset===0?'This Week':formatWeekLabel(); }
+/* ── WEEK NAV ──────────────────────────────────────────────────────── */
+function updateWeekNav(){
+  document.getElementById('weekLabel').textContent = weekOffset===0?'This Week':formatWeekLabel();
+}
 
+/* ── DAY FILTER ────────────────────────────────────────────────────── */
 function buildDayFilter(){
   const df=document.getElementById('dayFilter');
   df.innerHTML='';
@@ -1088,10 +1078,12 @@ function buildDayFilter(){
     btn.className='day-pill active';
     btn.textContent=d.slice(0,3);
     btn.dataset.day=d;
+    btn.onclick=()=>{ /* toggle visible day — simplified: just re-render */ };
     df.appendChild(btn);
   });
 }
 
+/* ── VIEW TOGGLE ───────────────────────────────────────────────────── */
 function setView(n){
   viewDays=n;
   ['view7','view5','view1'].forEach(id=>{
@@ -1106,10 +1098,11 @@ function goToday(){ weekOffset=0; renderCalendar(); updateWeekNav(); }
 function renderCalendar(){
   const gridBody      = document.getElementById('gridBody');
   const daysHeaderRow = document.getElementById('daysHeaderRow');
-  const totalH        = (END_H - START_H + 1) * PX_MIN * 60; 
+  const totalH        = (END_H - START_H + 1) * PX_MIN * 60; // px
   const weekDates     = getWeekDates();
   const days          = visibleDays();
 
+  // Header row
   daysHeaderRow.innerHTML='';
   days.forEach((day,i)=>{
     const date   = weekDates[ALL_DAYS.indexOf(day)];
@@ -1124,6 +1117,7 @@ function renderCalendar(){
     daysHeaderRow.appendChild(div);
   });
 
+  // Grid body
   gridBody.innerHTML='';
   days.forEach(day=>{
     const col = document.createElement('div');
@@ -1131,6 +1125,7 @@ function renderCalendar(){
     col.dataset.day=day;
     col.style.height=`${totalH}px`;
 
+    // Hour & half-hour lines
     for(let h=START_H; h<=END_H; h++){
       const hLine=document.createElement('div');
       hLine.className='hour-line';
@@ -1144,6 +1139,7 @@ function renderCalendar(){
       }
     }
 
+    // Now line (only today's col)
     const weekDates2 = getWeekDates();
     const date2 = weekDates2[ALL_DAYS.indexOf(day)];
     if(isToday(date2)){
@@ -1154,21 +1150,24 @@ function renderCalendar(){
       col.appendChild(nl);
     }
 
+    // Drop indicator
     const di=document.createElement('div');
     di.className='drop-indicator';
     di.id=`drop-${day}`;
     col.appendChild(di);
 
+    // Empty hint
     const eh=document.createElement('div');
     eh.className='empty-hint';
     eh.innerHTML=`<span>+ Click to add</span>`;
     col.appendChild(eh);
 
+    // Events
     const dayEvs = events.filter(e=>e.day===day);
     dayEvs.forEach(ev=>{ col.appendChild(buildEventCard(ev)); });
 
-    // Switched to 'click' to avoid accidental creation when scrolling on phone
-    col.addEventListener('click', e=>{
+    // Click to add
+    col.addEventListener('mousedown', e=>{
       if(e.target!==col && !e.target.classList.contains('hour-line') && !e.target.classList.contains('half-line') && !e.target.classList.contains('empty-hint') && !e.target.closest('.empty-hint')) return;
       const rect=col.getBoundingClientRect();
       const y=e.clientY-rect.top;
@@ -1177,6 +1176,7 @@ function renderCalendar(){
       openEventModal(null, day, sMin, sMin+60);
     });
 
+    // Drag-over & drop
     col.addEventListener('dragover', onDragOver);
     col.addEventListener('dragleave', onDragLeave);
     col.addEventListener('drop', onDrop);
@@ -1231,22 +1231,21 @@ function buildEventCard(ev){
     openEventModal(ev.id);
   });
 
-  // Updated to pointerdown/up for touch capability!
+  // Resize
   const rh = card.querySelector('.resize-handle');
-  rh.addEventListener('pointerdown', e=>{
+  rh.addEventListener('mousedown', e=>{
     e.stopPropagation(); e.preventDefault();
     resizeData={ id:ev.id, startY:e.clientY, origEndMin:ev.endMin };
-    document.addEventListener('pointermove', onResizeMove);
-    document.addEventListener('pointerup', onResizeEnd);
-    document.addEventListener('pointercancel', onResizeEnd);
+    document.addEventListener('mousemove', onResizeMove);
+    document.addEventListener('mouseup', onResizeEnd);
     card.style.cursor='ns-resize';
-    rh.setPointerCapture(e.pointerId);
   });
 
   return card;
 }
 
 function darken(hex){
+  // Return a darker shade for text
   return hex.replace(/^#/,'').match(/.{2}/g)
     .map(c=>Math.max(0,parseInt(c,16)-60).toString(16).padStart(2,'0'))
     .reduce((a,b)=>a+b,'#');
@@ -1263,6 +1262,7 @@ function onResizeMove(e){
   newEnd = Math.max(ev.startMin + SNAP, Math.min(END_H*60, newEnd));
   ev.endMin = newEnd;
 
+  // Live update card height
   const card = document.querySelector(`.event-card[data-id="${resizeData.id}"]`);
   if(card){
     const hp=(ev.endMin-ev.startMin)*PX_MIN;
@@ -1273,9 +1273,8 @@ function onResizeMove(e){
 }
 
 function onResizeEnd(){
-  document.removeEventListener('pointermove', onResizeMove);
-  document.removeEventListener('pointerup', onResizeEnd);
-  document.removeEventListener('pointercancel', onResizeEnd);
+  document.removeEventListener('mousemove', onResizeMove);
+  document.removeEventListener('mouseup', onResizeEnd);
   resizeData=null;
   saveData();
   renderCalendar();
@@ -1338,6 +1337,7 @@ function onDrop(e){
   toast('✓ Event moved');
 }
 
+/* ── NOW LINE ──────────────────────────────────────────────────────── */
 function positionNowLine(el){
   const now=new Date();
   const nowMin=now.getHours()*60+now.getMinutes();
@@ -1346,9 +1346,12 @@ function positionNowLine(el){
 }
 
 function startNowLine(){
-  setInterval(()=>{ document.querySelectorAll('.now-line').forEach(nl=>positionNowLine(nl)); }, 60000);
+  setInterval(()=>{
+    document.querySelectorAll('.now-line').forEach(nl=>positionNowLine(nl));
+  }, 60000);
 }
 
+/* ── SWATCHES ──────────────────────────────────────────────────────── */
 function buildSwatches(){
   const g=document.getElementById('swatchGrid');
   g.innerHTML='';
@@ -1367,6 +1370,7 @@ function buildSwatches(){
   });
 }
 
+/* ── DAY CHECKBOXES ────────────────────────────────────────────────── */
 function buildDayCheckboxes(){
   const c=document.getElementById('evDayCheckboxes');
   c.innerHTML='';
@@ -1374,7 +1378,9 @@ function buildDayCheckboxes(){
     const lbl=document.createElement('label');
     lbl.className='day-cb-label';
     lbl.innerHTML=`<input type="checkbox" value="${d}">${d.slice(0,3)}`;
-    lbl.querySelector('input').addEventListener('change',()=>{ lbl.classList.toggle('checked', lbl.querySelector('input').checked); });
+    lbl.querySelector('input').addEventListener('change',()=>{
+      lbl.classList.toggle('checked', lbl.querySelector('input').checked);
+    });
     c.appendChild(lbl);
   });
 }
@@ -1388,17 +1394,24 @@ function setDayCheckboxes(days){
   });
 }
 
-function getCheckedDays(){ return [...document.querySelectorAll('.day-cb-label input:checked')].map(i=>i.value); }
+function getCheckedDays(){
+  return [...document.querySelectorAll('.day-cb-label input:checked')].map(i=>i.value);
+}
 
+/* ── REPEAT ────────────────────────────────────────────────────────── */
 function setRepeat(mode, btn){
   repeatMode=mode;
   document.querySelectorAll('.repeat-pill').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
 
-  if(mode==='weekdays'){ setDayCheckboxes(['Monday','Tuesday','Wednesday','Thursday','Friday']); }
-  else if(mode==='daily'){ setDayCheckboxes(ALL_DAYS); }
+  if(mode==='weekdays'){
+    setDayCheckboxes(['Monday','Tuesday','Wednesday','Thursday','Friday']);
+  } else if(mode==='daily'){
+    setDayCheckboxes(ALL_DAYS);
+  }
 }
 
+/* ── EVENT MODAL ───────────────────────────────────────────────────── */
 function openEventModal(id=null, day=null, startMin=null, endMin=null){
   editingId=id;
   repeatMode='none';
@@ -1413,6 +1426,7 @@ function openEventModal(id=null, day=null, startMin=null, endMin=null){
     setDayCheckboxes([ev.day]);
     document.getElementById('evDeleteBtn').style.display='inline-flex';
 
+    // pre-select color
     const ck=ev.colorKey||(colorMap[ev.title.toLowerCase().trim()]);
     document.querySelectorAll('.swatch').forEach(s=>s.classList.toggle('selected',s.dataset.key===ck));
   } else {
@@ -1429,8 +1443,11 @@ function openEventModal(id=null, day=null, startMin=null, endMin=null){
   setTimeout(()=>document.getElementById('evTitle').focus(), 120);
 }
 
-function closeEventModal(){ document.getElementById('eventModal').classList.remove('open'); }
+function closeEventModal(){
+  document.getElementById('eventModal').classList.remove('open');
+}
 
+// Close on backdrop click
 document.getElementById('eventModal').addEventListener('click', e=>{
   if(e.target===document.getElementById('eventModal')) closeEventModal();
 });
@@ -1454,13 +1471,16 @@ function saveEvent(){
     const ev=events.find(e=>e.id===editingId);
     ev.title=title; ev.startMin=sMin; ev.endMin=eMin;
     ev.day=days[0]; ev.colorKey=colorKey;
+    // If more days selected, create copies
     days.slice(1).forEach(d=>{
       if(!events.find(e=>e.title===title&&e.day===d&&e.startMin===sMin)){
         events.push({id:uid(),day:d,title,startMin:sMin,endMin:eMin,colorKey});
       }
     });
   } else {
-    days.forEach(d=>{ events.push({id:uid(),day:d,title,startMin:sMin,endMin:eMin,colorKey}); });
+    days.forEach(d=>{
+      events.push({id:uid(),day:d,title,startMin:sMin,endMin:eMin,colorKey});
+    });
   }
 
   closeEventModal();
@@ -1478,6 +1498,7 @@ function deleteEvent(){
   toast('Event deleted');
 }
 
+/* ── TOAST ─────────────────────────────────────────────────────────── */
 function toast(msg, type='success'){
   const t=document.getElementById('toast');
   t.textContent=msg;
@@ -1487,6 +1508,7 @@ function toast(msg, type='success'){
   t._to=setTimeout(()=>t.classList.remove('show'),2400);
 }
 
+/* ── SHAKE ─────────────────────────────────────────────────────────── */
 function shake(el){
   el.style.animation='none';
   el.style.borderColor='#c44040';
@@ -1494,6 +1516,7 @@ function shake(el){
   setTimeout(()=>{ el.style.borderColor=''; el.style.boxShadow=''; },1200);
 }
 
+/* ── START ─────────────────────────────────────────────────────────── */
 init();
 </script>
 </body>
